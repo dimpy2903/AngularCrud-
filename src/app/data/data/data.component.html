@@ -1,0 +1,52 @@
+<p>data works!</p>
+
+
+<form [formGroup]="employeeForm" (ngSubmit)="saveAndUpdate()">
+
+    <input id="id" hidden type="id" formControlName="id">
+
+    <label for="employee-name">Employee Name: </label>
+    <input id="employee-name" type="text" formControlName="employeeName" required="">
+  
+    <label for="department">Department: </label>
+    <input id="department" type="text" formControlName="department" required="">
+
+    <label for="salary">Salary: </label>
+    <input id="salary" type="number" formControlName="salary" required="">
+
+    <button type="submit" [disabled]="employeeForm.invalid">{{ employeeForm.get("id")?.value != null ? 'Update' : 'Save' }}</button>
+    <button type="reset">Reset</button>
+  </form>
+
+
+  <div style="margin-top: 4rem;">
+    <label for="search">Search: </label>
+    <input id="search" type="search" [(ngModel)]="keyword">
+
+    <br/>
+    <br/>
+    <h3>Filter By - </h3>
+    <input type="radio" id="employee-name" name="filter" value="employeeName" [(ngModel)]="filterBy">
+    <label for="name">Employee Name</label><br>
+    <input type="radio" id="employee name" name="filter" value="department" [(ngModel)]="filterBy">
+    <label for="department">Department</label><br>
+  </div>
+
+
+  <table class="table">
+    <tr>
+        <th>Employee Name</th>
+        <th>Department</th>
+        <th>Salary</th>
+        <th>Action</th>
+    </tr>
+    <tr *ngFor="let emp of employeeData | filter: filterBy : keyword">
+      <td>{{emp.employeeName}}</td>
+      <td>{{emp.department}}</td>
+      <td>{{emp.salary}}</td>
+      <td>
+        <button (click)="editEmployee(emp)">Edit</button>
+        <button (click)="removeElement(emp.id)">Delete</button>
+      </td>
+    </tr>
+  </table>
